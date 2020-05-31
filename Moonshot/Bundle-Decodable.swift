@@ -9,8 +9,8 @@
 import Foundation
 
 extension Bundle {
-    func decode(_ file: String) -> [Astronaut] {
-        guard let url = self.url(forResource: file, withExtension: nil) else {
+  func decode<T: Codable>(_ file: String) -> T { //If you try compiling this code, you’ll see an error in Xcode: “Instance method 'decode(_:from:)' requires that 'T' conform to 'Decodable’”. What it means is that T could be anything: it could be an array of astronauts, or it could be an array of something else entirely. The problem is that Swift can’t be sure the type we’re working with conforms to the Codable protocol, so rather than take a risk it’s refusing to build our code.
+        guard let url = self.url(forResource: file, withExtension: nil) else {      //self 就是 bundle
             fatalError("Failed to locate \(file) in bundle.")
         }
 
@@ -20,10 +20,10 @@ extension Bundle {
 
         let decoder = JSONDecoder()
 
-        guard let loaded = try? decoder.decode([Astronaut].self, from: data) else {
+        guard let loaded = try? decoder.decode(T.self, from: data) else {
             fatalError("Failed to decode \(file) from bundle.")
         }
 
-        return loaded
+    return loaded
     }
 }
