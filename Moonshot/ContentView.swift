@@ -14,10 +14,22 @@ struct ContentView: View {
   
   var body: some View {
     NavigationView {
-      VStack {
-         Text("\(astronauts.count)")
-         Text("\(missions.count)")
-       }
+      List(missions) {mission in
+        NavigationLink(destination: Text("Detail view")) {
+          Image("\(mission.image)")
+            .resizable()
+            .frame(width: 44, height: 44)
+//            .aspectRatio(contentMode: .fit)
+            .scaledToFit()  //和上边的注释一个意思
+          
+          VStack(alignment: .leading) {
+            Text("\(mission.displayName)")
+              .font(.headline)
+            Text(mission.formattedLaunchDate)
+          }
+        }
+      }
+      .navigationBarTitle("Moonshot")
     }
   }
 }
