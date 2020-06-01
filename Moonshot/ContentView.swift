@@ -15,11 +15,11 @@ struct ContentView: View {
   var body: some View {
     NavigationView {
       List(missions) {mission in
-        NavigationLink(destination: MissionView(missions: mission, astronauts: self.astronauts)) {
+        NavigationLink(destination: MissionView(missions: mission, astronauts: self.astronauts).buttonStyle(PlainButtonStyle())) {
           Image("\(mission.image)")
             .resizable()
             .frame(width: 44, height: 44)
-//            .aspectRatio(contentMode: .fit)
+            //            .aspectRatio(contentMode: .fit)
             .scaledToFit()  //和上边的注释一个意思
           
           VStack(alignment: .leading) {

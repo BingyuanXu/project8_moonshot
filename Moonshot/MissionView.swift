@@ -30,34 +30,38 @@ struct MissionView: View {
             .padding(.top)
           Text(self.missions.description)
             .padding()
-          ForEach(self.astronauts, id: \.role) { crewMember in
-            HStack {
-              Image(crewMember.astronaut.id)
-                .resizable()
-                .frame(width: 83, height: 60)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(LinearGradient(gradient: Gradient(colors: [.black, .yellow]), startPoint: .top, endPoint: .bottom)
-                  , lineWidth: 0.5))
-                .shadow(radius: 8)
+          
+          
+          ForEach(self.astronauts, id: \.role) {crewMember in
+            NavigationLink(destination: AstronautView(astronaut: crewMember.astronaut)) {
               
-              VStack(alignment: .leading) {
-                Text(crewMember.astronaut.name)
-                  .font(.headline)
-                Text(crewMember.role)
-                  .foregroundColor(.secondary)
+              HStack {
+                Image(crewMember.astronaut.id)
+                  .resizable()
+                  .frame(width: 83, height: 60)
+                  .clipShape(Circle())
+                  .overlay(Circle().stroke(LinearGradient(gradient: Gradient(colors: [.black, .yellow]), startPoint: .top, endPoint: .bottom)
+                    , lineWidth: 0.5))
+                  .shadow(radius: 8)
+                VStack(alignment: .leading) {
+                  Text(crewMember.astronaut.name)
+                    .font(.headline)
+                  Text(crewMember.role)
+                    .foregroundColor(.secondary)
+                }
+                Spacer()
               }
-              
-              Spacer()
             }
-            .padding(.horizontal)
+            .buttonStyle(PlainButtonStyle())
           }
-          Spacer(minLength: 25)
         }
+        Spacer(minLength: 30)
       }
-      
     }
     .navigationBarTitle(Text(missions.displayName), displayMode: .inline)
+    
   }
+  
   
   init(missions: Missions, astronauts: [Astronaut]) {
     self.missions = missions
@@ -72,7 +76,9 @@ struct MissionView: View {
     }
     self.astronauts = match
   }
+  
 }
+
 
 struct MissionView_Previews: PreviewProvider {
   static let missions: [Missions] = Bundle.main.decode("missions.json")
